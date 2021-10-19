@@ -2,7 +2,9 @@
 
 namespace app\models;
 
-abstract class Model
+use app\interfaces\iModel;
+
+abstract class Model implements iModel
 {
     protected $db;
 
