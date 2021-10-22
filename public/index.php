@@ -1,5 +1,5 @@
 <?php
-
+include '../config/config.php';
 include '../engine/Autoload.php';
 
 use app\engine\Autoload;
@@ -11,20 +11,16 @@ use app\models\User;
 
 Autoload::loadClass();
 
-$db = new Db();
-$product = new Products($db);
-$user = new User($db);
-$feedback = new Feedback($db);
-$basket = new Basket($db);
 
-echo $product->getOne(4);
-echo $product->getAll();
+//$product = new Products('Pizza', 'Классическая', 6, 140);
+//$product->insert();
+$product = new Products();
+$product->delete();
 
-echo $user->getOne(1);
-echo $user->getAll();
-
-echo $feedback->getOne(1);
-echo $feedback->getAll();
-
-echo $basket->getOne(1);
-echo $basket->getAll();
+//$user = new User('Булат', 'bulat', 1234);
+//$user->insert();
+//
+//echo '<pre>';
+//var_dump($user->getOne(1));
+//var_dump($user->getAll());
+//echo '</pre>';

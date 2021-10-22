@@ -2,7 +2,7 @@
 
 namespace app\interfaces;
 
-interface iModel
+interface IModel
 {
     public function getOne($id);
     public function getAll();
