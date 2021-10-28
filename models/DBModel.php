@@ -8,18 +8,17 @@ abstract class DBModel extends Model
 {
     abstract protected static function getTableName();
 
-    public function insert()
+    public function insert(): DBModel
     {
         $keys         = [];
         $params       = [];
         $paramsValues = [];
 
-        foreach ($this as $key => $value) {
-            if($key == 'id') continue;
+        foreach ($this->props as $key => $value) {
             $keys[]    = '`' . $key. '`';
             $paramName = ':' . $key;
             $params[]  = $paramName;
-            $paramsValues[$paramName] = $value;
+            $paramsValues[$paramName] = $this->$key;
         }
 
         $columns = implode(', ', $keys);
@@ -29,6 +28,7 @@ abstract class DBModel extends Model
         $sql = "INSERT INTO {$tableName} ({$columns}) VALUES ({$values})";
         Db::getInstance()->execute($sql, $paramsValues);
         $this->id = Db::getInstance()->lastInsertId();
+        return $this;
     }
 
     public function delete()
@@ -38,11 +38,35 @@ abstract class DBModel extends Model
         return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
 
-    public function update()
+    public function update(): DBModel
     {
-        //UPDATE table_name SET column1=new_value, column2=new_value WHERE condition;
+        $params = [];
+        $columns = [];
+
+        foreach ($this->props as $key => $value) {
+            if(!$value) continue;
+            $params["{$key}"] = $this->$key;
+            $columns[] .= "`{$key}` = :{$key}";
+            $this->props[$key] = false;
+        }
+        $columns = implode(", ", $columns);
+        $tableName = static::getTableName();
+        $params['id'] = $this->id;
+        //UPDATE table_name SET column1=new_value WHERE condition;
+        $sql = "UPDATE `{$tableName}` SET {$columns} WHERE `id` = :id";
+        Db::getInstance()->execute($sql, $params);
+        return $this;
     }
 
+    public function save(): DBModel
+    {
+        if(is_null($this->id)){
+            return $this->insert();
+        } else {
+            return $this->update();
+        }
+
+    }
     public static function getOne($id)
     {
         $tableName = static::getTableName();

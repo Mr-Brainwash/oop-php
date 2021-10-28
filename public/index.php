@@ -12,6 +12,7 @@ use app\models\User;
 
 Autoload::loadClass();
 
+
 $controllerName = $_GET['c'] ?? 'product';
 $actionName = $_GET['a'];
 
@@ -24,7 +25,15 @@ if(class_exists($controllerClass)){
 } else {
     die('404');
 }
-//$product = new Products('Pizza', 'Классическая', 6, 140);
+
+//$product = Products::getOne(44);
+//$product->name = "Umberto";
+//$product->description = "Пицца";
+//$product->price = 250;
+//var_dump($product);
+//$product->update();
+
+//$product = new Products('Пицца', 'umberto', 6, 145);
 //$product->insert();
 
 //$user = new User('Артур', 'artur', 1234);
