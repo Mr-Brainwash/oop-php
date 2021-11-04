@@ -1,0 +1,17 @@
+<h3>Каталог</h3>
+
+{% for item in catalog %}
+    <div>
+        <form action="/basket/add/" method="post">
+            <input type="text" name="id" value="{{ item.id }}" hidden>
+            <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
+            <p>Цена: {{ item.price }}</p>
+            <button type="submit">В корзину</button>
+        </form>
+    </div>
+{% else %}
+    Нет товаров.
+{% endfor %}
+
+<a href="/product/catalog/?page={{ page }}">Загрузить ещё</a>
+
