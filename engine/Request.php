@@ -1,0 +1,65 @@
+<?php
+
+namespace app\engine;
+
+class Request
+{
+    protected $requestString;
+    protected $controllerName;
+    protected $actionName;
+    protected $method;
+    protected $params = [];
+
+    public function __construct()
+    {
+        $this->parseRequest();
+    }
+
+    public function parseRequest()
+    {
+        $this->requestString =  $_SERVER['REQUEST_URI'];
+        $this->method =  $_SERVER['REQUEST_METHOD'];
+
+        $url = explode('/', $this->requestString );
+
+        $this->controllerName = $url[1];
+        $this->actionName = $url[2] ?? null;
+        //Без условия выдает ошибку - Notice: Undefined offset: 2 in /var/www/oop-php/engine/Request.php on line 26
+        $this->params = $_REQUEST;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActionName()
+    {
+        return $this->actionName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+
+
+}

@@ -1,0 +1,10 @@
+<h3>Отзывы</h3>
+
+{% for item in feedback %}
+<div>
+    <p>автор: {{ item.name }}</p>
+    <p>отзыв: {{ item.feedback }}</p>
+</div>
+{% else %}
+    Нет отзывов.
+{% endfor %}
