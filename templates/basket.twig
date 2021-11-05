@@ -1,0 +1,15 @@
+<h3>Корзина</h3>
+
+{% for item in basket %}
+    <div>
+        <form action="/basket/delete/" method="post">
+            <input type="text" name="id" value="{{ item.basket_id }}" hidden>
+            <h3>{{ item.name }}</h3>
+            <p>Описание: {{ item.description }}</p>
+            <p>Цена: {{ item.price }}</p>
+            <button>Удалить</button>
+        </form>
+    </div>
+{% else %}
+    Нет добавленных товаров
+{% endfor %}
